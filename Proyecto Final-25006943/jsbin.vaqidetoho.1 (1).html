@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2025 by anonymous (http://jsbin.com/vaqidetoho/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+
+<script id="jsbin-javascript">
+// Variables útiles 
+var precio_base = 2000; // Precio base en quetzales
+
+// Valores de los recargos 
+var edad_18 = 0.1; // 10%
+var edad_25 = 0.2; // 20%
+var edad_50 = 0.3; // 30%
+
+var casado_18 = 0.1; // 10%
+var casado_25 = 0.2; // 20%
+var casado_50 = 0.3; // 30%
+
+var hijos_recargo = 0.2; // 20%
+
+// Variables para recargos
+var recargo = 0;
+var recargo_total = 0;
+var precio_final = 0;
+
+// Mensajes de alerta para ingresar datos
+var nombre = prompt("Ingrese su nombre, por favor");
+var edad = parseInt(prompt("¿Cuántos años tiene? Ingrese solamente números "), 10);
+
+// Validamos que la edad sea un número válido
+if (isNaN(edad) || edad < 18) {
+    alert("Debe ingresar una edad válida (mayor o igual a 18 años).");
+} else {
+    var casado = prompt("¿Está casado actualmente? (SI/NO)").toUpperCase();
+    var edad_conyuge = 0;
+
+    if (casado === "SI") {
+        edad_conyuge = parseInt(prompt("¿Qué edad tiene su esposo/a?"), 10);
+        if (isNaN(edad_conyuge) || edad_conyuge < 18) {
+            alert("Debe ingresar una edad válida para su cónyuge (mayor o igual a 18 años).");
+            edad_conyuge = 0; // Reiniciamos si el dato es inválido
+        }
+    }
+
+    var hijos = prompt("¿Tiene hijos o hijas? (SI/NO)").toUpperCase();
+    var cantidad_hijos = 0;
+
+    if (hijos === "SI") {
+        cantidad_hijos = parseInt(prompt("¿Cuántos hijos tiene?"), 10);
+        if (isNaN(cantidad_hijos) || cantidad_hijos < 0) {
+            alert("Debe ingresar un número válido de hijos.");
+            cantidad_hijos = 0; // Reiniciamos si el dato es inválido
+        }
+    }
+
+    // Cálculo del recargo por edad del asegurado
+    if (edad >= 18 && edad < 25) {
+        recargo = precio_base * edad_18;
+    } else if (edad >= 25 && edad < 50) {
+        recargo = precio_base * edad_25;
+    } else if (edad >= 50) {
+        recargo = precio_base * edad_50;
+    }
+    recargo_total += recargo;
+
+    // Cálculo del recargo por edad del cónyuge
+    if (casado === "SI") {
+        if (edad_conyuge >= 18 && edad_conyuge < 25) {
+            recargo = precio_base * casado_18;
+        } else if (edad_conyuge >= 25 && edad_conyuge < 50) {
+            recargo = precio_base * casado_25;
+        } else if (edad_conyuge >= 50) {
+            recargo = precio_base * casado_50;
+        }
+        recargo_total += recargo;
+    }
+
+    // Cálculo del recargo por hijos
+    if (cantidad_hijos > 0) {
+        recargo = precio_base * hijos_recargo * cantidad_hijos;
+        recargo_total += recargo;
+    }
+
+    // Cálculo del precio final
+    precio_final = precio_base + recargo_total;
+
+    // Resultado
+    alert("Para el asegurado " + nombre);
+    alert("El recargo total será de: Q" + recargo_total);
+    alert("El precio final del seguro será de: Q" + precio_final);
+}
+
+</script>
+</body>
+</html>
